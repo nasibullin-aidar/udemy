@@ -1,31 +1,16 @@
-/* Задание на урок:
+"use strict";
 
-1) Создать переменную numberOfFilms и в неё поместить ответ от пользователя на вопрос:
-'Сколько фильмов вы уже посмотрели?'
+let numberOfFilms;
 
-2) Создать объект personalMovieDB и в него поместить такие свойства:
-    - count - сюда передается ответ на первый вопрос
-    - movies - в это свойство поместить пустой объект
-    - actors - тоже поместить пустой объект
-    - genres - сюда поместить пустой массив
-    - privat - в это свойство поместить boolean(логическое) значение false
+function start() {
+  numberOfFilms = +prompt("Сколько фильмов вы уже посмотрели?", "");
+  while (numberOfFilms == "" || numberOfFilms == null || isNaN(numberOfFilms)) {
+    numberOfFilms = +prompt("Сколько фильмов вы уже посмотрели?", "");
+  }
+}
 
-3) Задайте пользователю по два раза вопросы:
-    - 'Один из последних просмотренных фильмов?'
-    - 'На сколько оцените его?'
-Ответы стоит поместить в отдельные переменные
-Записать ответы в объект movies в формате: 
-    movies: {
-        'logan': '8.1'
-    }
+start();
 
-Проверить, чтобы все работало без ошибок в консоли */
-
-'use strict';
-
-// 1
-let numberOfFilms = prompt ('Сколько фильмов вы уже посмотрели?', '');
-// 2
 let personalMovieDB = {
   count: numberOfFilms,
   movies: {},
@@ -34,29 +19,58 @@ let personalMovieDB = {
   privat: false,
 };
 
-for (let i = 0; i < 2; i++) {
-  let a = prompt ('Один из последних просмотренных фильмов?', '');
-  let b = prompt ('На сколько оцените его?', '');
-  personalMovieDB.movies[a] = b;
-  if (personalMovieDB.movies[a] == '' || b.length > 50 || b == null) {
-    i--;
+function rememberMyFilms() {
+  for (let i = 0; i < 2; i++) {
+    let a = prompt("Один из последних просмотренных фильмов?", "");
+    let b = prompt("На сколько оцените его?", "");
+
+    if (personalMovieDB.movies[a] == "" || b.length > 50 || b == null) {
+      i--;
+    } else {
+      personalMovieDB.movies[a] = b;
+    }
   }
 }
 
-(numberOfFilms > 10 && numberOfFilms <= 30) ? alert ('Вы классический зритель!')
-  : numberOfFilms > 30 ? alert ('Вы киноман!') : alert ('Произошла ошибка!');
+rememberMyFilms();
 
-console.log (personalMovieDB);
+function detectPersonalLevel() {
+  numberOfFilms > 10 && numberOfFilms <= 30 ?
+    alert("Вы классический зритель!") :
+    numberOfFilms > 30 ?
+    alert("Вы киноман!") :
+    alert("Произошла ошибка!");
+}
+
+detectPersonalLevel();
+
+
+function writeYourGenres() {
+  for (let i = 0; i < 3; i++) {
+    let favouriteGenre = prompt(`Ваш любимый жанр под номером ${i + 1}`, '');
+    personalMovieDB.genres.push(favouriteGenre);
+
+  }
+}
+writeYourGenres();
+
+function showMyDB() {
+  if (personalMovieDB.privat == false) {
+    console.log(personalMovieDB);
+  }
+}
+showMyDB();
+
+
 /* Задание на урок:
 
-1) Автоматизировать вопросы пользователю про фильмы при помощи цикла
+1) Первую часть задания повторить по уроку
 
-2) Сделать так, чтобы пользователь не мог оставить ответ в виде пустой строки,
-отменить ответ или ввести название фильма длинее, чем 50 символов. Если это происходит -
-возвращаем пользователя к вопросам опять
+2) Создать функцию showMyDB, которая будет проверять свойство privat. Если стоит в позиции
+false - выводит в консоль главный объект программы
 
-3) При помощи условий проверить  personalMovieDB.count, и если он меньше 10 - вывести сообщение
-"Просмотрено довольно мало фильмов", если от 10 до 30 - "Вы классический зритель", а если больше -
-"Вы киноман". А если не подошло ни к одному варианту - "Произошла ошибка"
+3) Создать функцию writeYourGenres в которой пользователь будет 3 раза отвечать на вопрос 
+"Ваш любимый жанр под номером ${номер по порядку}". Каждый ответ записывается в массив данных
+genres
 
-4) Потренироваться и переписать цикл еще двумя способами*/
+P.S. Функции вызывать не обязательно*/
